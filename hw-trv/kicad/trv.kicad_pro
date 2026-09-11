@@ -38,8 +38,8 @@
         "other_text_upright": false,
         "pads": {
           "drill": 0.0,
-          "height": 0.5334,
-          "width": 0.5588
+          "height": 0.95,
+          "width": 0.975
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -58,7 +58,88 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "clearance|220220670|152880087|71214188-6f32-4e26-b8fb-a48fd70694bf|d0a8a96a-bca5-4199-a5b0-3b1d2a75dd11",
+          ""
+        ],
+        [
+          "clearance|232276170|133861598|2ae1adfc-b13e-47bc-a8a7-467d224e7b5c|d4f70be9-822c-4026-acad-db4dacdb39f3",
+          ""
+        ],
+        [
+          "hole_clearance|220220670|152880087|71214188-6f32-4e26-b8fb-a48fd70694bf|d0a8a96a-bca5-4199-a5b0-3b1d2a75dd11",
+          ""
+        ],
+        [
+          "shorting_items|203959170|99473587|3dc8df64-5d72-44d0-83cd-3060f08b82dd|a35b3b8b-872f-4273-bd74-900592c01868",
+          ""
+        ],
+        [
+          "shorting_items|215476170|141847587|8ba19495-c478-405b-8390-7e21cd826a7c|a610f3c7-962e-4c76-9c8c-55040f75158b",
+          ""
+        ],
+        [
+          "shorting_items|229946000|119563993|a05c7650-3b3c-4c60-ac38-83123cea475d|ae6a56c6-944c-47f8-80c0-c28f45ef0c44",
+          ""
+        ],
+        [
+          "shorting_items|230010642|117329700|1653951e-6b98-4c95-9687-4f8bb7e699b5|39965c4a-6290-4765-b1c4-36df3127088e",
+          ""
+        ],
+        [
+          "shorting_items|230010642|118129700|1a711cba-64ce-4a45-bca1-0b2aad87466e|39965c4a-6290-4765-b1c4-36df3127088e",
+          ""
+        ],
+        [
+          "shorting_items|230010642|118929700|39965c4a-6290-4765-b1c4-36df3127088e|bb46b1c0-ff78-4745-bd9a-55c65f70b4fa",
+          ""
+        ],
+        [
+          "shorting_items|230010642|119729700|39965c4a-6290-4765-b1c4-36df3127088e|a05c7650-3b3c-4c60-ac38-83123cea475d",
+          ""
+        ],
+        [
+          "shorting_items|230010642|120529700|39965c4a-6290-4765-b1c4-36df3127088e|9209b8e7-f708-410a-85cd-5a3f64276aad",
+          ""
+        ],
+        [
+          "shorting_items|230010642|121329700|39965c4a-6290-4765-b1c4-36df3127088e|71aea6e7-b139-4e75-bb15-ff0f0315f9d2",
+          ""
+        ],
+        [
+          "shorting_items|230193044|107922026|2e991983-f2bc-4e9f-868f-69f235a5f8a3|79ce3d38-0eb6-472d-b34e-058cd1e80551",
+          ""
+        ],
+        [
+          "shorting_items|235150000|121050000|39965c4a-6290-4765-b1c4-36df3127088e|629e2d29-f25d-431a-9bc3-d70569f7c862",
+          ""
+        ],
+        [
+          "shorting_items|236162500|119298820|39965c4a-6290-4765-b1c4-36df3127088e|cbe5cfd9-8c68-4a16-af8c-f8b89a6562c0",
+          ""
+        ],
+        [
+          "tracks_crossing|203959170|99406087|3dc8df64-5d72-44d0-83cd-3060f08b82dd|88f60ff1-1e32-44ec-b649-69c8d86282f1",
+          ""
+        ],
+        [
+          "unconnected_items|188350394|144810421|F.Cu|4|4eef7e3d-fc78-466a-b278-07734f1b2049|76386b1a-b596-4e78-9524-38fd6b0d4949",
+          ""
+        ],
+        [
+          "unconnected_items|196676140|148275705|F.Cu|4|583ee395-47c6-4ef5-a5d0-6e98d6f22867|c33baef5-0d3c-44a1-8ea4-e95b2483aff8",
+          ""
+        ],
+        [
+          "unconnected_items|230010642|119729700|F.Cu|4|a05c7650-3b3c-4c60-ac38-83123cea475d|9209b8e7-f708-410a-85cd-5a3f64276aad",
+          ""
+        ],
+        [
+          "unconnected_items|230010642|120529700|F.Cu|4|9209b8e7-f708-410a-85cd-5a3f64276aad|71aea6e7-b139-4e75-bb15-ff0f0315f9d2",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -192,6 +273,7 @@
         0.1,
         0.2,
         0.3,
+        0.4,
         0.5,
         1.0,
         1.06,
@@ -482,7 +564,7 @@
     "classes": [
       {
         "bus_width": 12,
-        "clearance": 0.2,
+        "clearance": 0.12,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
@@ -511,7 +593,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "qo-100_v0.2",
+      "plot": "qo-100_v1.0",
       "pos_files": "",
       "specctra_dsn": "",
       "step": "",
@@ -522,7 +604,7 @@
   },
   "schematic": {
     "annotate_start_num": 0,
-    "bom_export_filename": "..\\..\\v0.2_bom.csv",
+    "bom_export_filename": "..\\..\\v1.0_bom.csv",
     "bom_fmt_presets": [],
     "bom_fmt_settings": {
       "field_delimiter": ",",
