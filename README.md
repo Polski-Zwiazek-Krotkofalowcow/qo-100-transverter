@@ -63,7 +63,7 @@
 
 ## Schematics
 
-- [v0.3 schematics (current)](hw-trv/sch_v0.3-sh.pdf)
+- [v1.0 schematics (current)](hw-trv/sch_v1.0.pdf)
 - [v0.2 schematics](https://github.com/sq5nry/qo-100-transverter/blob/77cc88346982ab3cb6913bec3531f18df363a01a/hw-trv/sch_v0.2.pdf) — release presented at [Ham Radio Friedrichshafen 2026](https://www.hamradio-friedrichshafen.com/trade-show-program/exhibitors/exhibitor?id=107515806) in [PZK](https://www.pzk.org.pl/) (Polish Amateur Radio Union) tent
 
 > **⚠️ Note:** do not mount the OCXO subcircuit (error amplifier and heater components, connected via JP5). This circuitry is non-functional in the current release and will be removed in a future revision. The freed board space can instead be used for additional thermal insulation around the TCXO.
