@@ -352,6 +352,9 @@ void rffc5071_setup(rffc5071_driver_t *const drv, BAND_IF band) {
 
 	set_RFFC5071_FULLD(drv, 0);
 
+	/* readback reg (0x1F) mux: READSEL=0001 -> bit 15 = PLL lock detect */
+	set_RFFC5071_READSEL(drv, 0x1);
+
 	rffc5071_regs_commit(drv);
 }
 
@@ -378,6 +381,12 @@ uint16_t rffc5071_reg_read(rffc5071_driver_t *const drv, uint8_t r) {
 		drv->regs[r] = rffc5071_spi_read(drv, r);
 	};
 	return drv->regs[r];
+}
+
+bool rffc5071_lock_detect(rffc5071_driver_t *const drv) {
+	/* assumes READSEL=0001 (set in rffc5071_setup) */
+	const uint16_t rb = rffc5071_reg_read(drv, RFFC5071_READBACK_REG);
+	return (rb >> 15) & 0x1;
 }
 
 void rffc5071_reg_write(rffc5071_driver_t *const drv, uint8_t r, uint16_t v) {

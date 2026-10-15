@@ -64,6 +64,9 @@ extern uint16_t rffc5071_reg_read(rffc5071_driver_t *const drv, uint8_t r);
 extern void rffc5071_reg_write(rffc5071_driver_t *const drv, uint8_t r,
 		uint16_t v);
 
+/* Read PLL lock-detect (LD) bit from readback register. 1 = locked. */
+extern bool rffc5071_lock_detect(rffc5071_driver_t *const drv);
+
 extern void rffc5071_spi_write(rffc5071_driver_t *const drv, uint8_t r, uint16_t v);
 
 /* Write all dirty registers via SPI from memory. Mark all clean. Some

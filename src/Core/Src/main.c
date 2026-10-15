@@ -46,6 +46,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+volatile uint16_t rffc_readback;     // last raw readback value (watch in debugger)
+volatile uint32_t rffc_unlock_count; // how many times LD was found 0
 
 /* USER CODE END PV */
 
@@ -70,10 +72,8 @@ BAND_IF getBand() {
 	return band;
 }
 
-void switchBand(rffc5071_driver_t *const mixer, BAND_IF band) {
-	rffc5071_setup(mixer, band);
-	rffc5071_rx(mixer);
-
+//via ACT green LED
+void indicateBand(BAND_IF band) {
 	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 	for(int x=0; x<=band; x++) {
 	  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
@@ -81,6 +81,13 @@ void switchBand(rffc5071_driver_t *const mixer, BAND_IF band) {
 	  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
 	  HAL_Delay(200);
 	}
+}
+
+void switchBand(rffc5071_driver_t *const mixer, BAND_IF band) {
+	rffc5071_setup(mixer, band);
+	rffc5071_rx(mixer);
+
+	indicateBand(band);
 }
 
 /* USER CODE END 0 */
@@ -123,16 +130,6 @@ int main(void)
   rffc5071_driver_t* mix = mixer_bus_setup();
   rffc5071_setup(mix, band);
 
-  // indicate band
-  //TODO debug only
-  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
-  for(int x=0; x<=band; x++) {
-	  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
-	  HAL_Delay(400);
-	  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
-	  HAL_Delay(200);
-  }
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -145,7 +142,7 @@ int main(void)
 	BAND_IF prev_band = getBand();
 	const uint8_t pollingStepMs = 10;
 	uint16_t loopCounter = 0;
-	bool txing;
+	bool txing = false;
 	while (1) {
 		// handle ptt switch
 		if (ptt != prev_ptt) {
@@ -177,6 +174,18 @@ int main(void)
 		} else if (loopCounter % 25 == 1 && !txing) {
 			HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 		}
+		// check PLL lock detect every 1s (offset from LED blink tick)
+		if (loopCounter % 100 == 50) {
+			rffc_readback = rffc5071_reg_read(mix, 31); // readback reg, READSEL=0001
+			bool locked = (rffc_readback >> 15) & 0x1;  // bit 15 = LD
+			if (!locked) {
+				// PLL unlocked: reprogram chip for current band and re-enable in RX
+				rffc_unlock_count++;
+				rffc5071_setup(mix, band);
+				rffc5071_rx(mix);
+			}
+		}
+
 		loopCounter++;
 	}
 

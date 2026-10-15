@@ -44,6 +44,20 @@ static bool rffc5071_spi_data_in(spi_bus_t *const bus) {
 	return HAL_GPIO_ReadPin(config->gpio_data_port, config->gpio_data_pin);
 }
 
+/* SDATA is bidirectional: switch PA7 between output (address/write phase)
+ * and input (read phase) via MODER (2 bits per pin: 00=input, 01=output). */
+static void rffc5071_spi_direction_out(spi_bus_t *const bus) {
+	const rffc5071_spi_config_t *const config = bus->config;
+	const uint32_t pos = 2U * (uint32_t)__builtin_ctz(config->gpio_data_pin);
+	config->gpio_data_port->MODER = (config->gpio_data_port->MODER & ~(3UL << pos)) | (1UL << pos);
+}
+
+static void rffc5071_spi_direction_in(spi_bus_t *const bus) {
+	const rffc5071_spi_config_t *const config = bus->config;
+	const uint32_t pos = 2U * (uint32_t)__builtin_ctz(config->gpio_data_pin);
+	config->gpio_data_port->MODER &= ~(3UL << pos);
+}
+
 static void rffc5071_spi_bus_init(spi_bus_t *const bus) {
 	const rffc5071_spi_config_t *const config = bus->config;
 	HAL_GPIO_WritePin(config->gpio_clock_port, config->gpio_clock_pin, GPIO_PIN_RESET);
@@ -128,6 +142,8 @@ void rffc5071_spi_transfer(spi_bus_t *const bus, void *const _data, const size_t
 	data[0] = rffc5071_spi_exchange_word(bus, data[0], 9);
 
 	if (direction_read) {
+		/* release SDATA so the chip can drive it, then one turnaround clock */
+		rffc5071_spi_direction_in(bus);
 		rffc5071_spi_sck(bus);
 		data[1] = rffc5071_spi_exchange_word(bus, data[1], 16);
 	} else {
@@ -137,6 +153,7 @@ void rffc5071_spi_transfer(spi_bus_t *const bus, void *const _data, const size_t
 
 	rffc5071_spi_serial_delay(bus);
 	rffc5071_spi_target_unselect(bus);
+	rffc5071_spi_direction_out(bus);
 
 	/*
 	 * The device requires a clock while ENX is high after a serial
