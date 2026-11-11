@@ -64,9 +64,12 @@
 ## Schematics
 
 - [v1.1 schematics (current)](hw-trv/sch_v1.1.pdf) — extra input for 25MHz, idea from Zbig SP3NYF
-- [v1.1 PCB manufacturing files (JLCPCB)](hw-trv/qo100_v1.1_jlc_pcb.7z) — ready-to-order production file set for [JLCPCB](https://jlcpcb.com/)
 - [v1.0 schematics](hw-trv/sch_v1.0.pdf) — cheap mini SAW filters + minor enhancements
 - [v0.2 schematics](https://github.com/sq5nry/qo-100-transverter/blob/77cc88346982ab3cb6913bec3531f18df363a01a/hw-trv/sch_v0.2.pdf) — release presented at [Ham Radio Friedrichshafen 2026](https://www.hamradio-friedrichshafen.com/trade-show-program/exhibitors/exhibitor?id=107515806) in [PZK](https://www.pzk.org.pl/) (Polish Amateur Radio Union) tent
+
+### PCB manufacturing
+
+The production file set for ordering the v1.1 PCB at [JLCPCB](https://jlcpcb.com/) is available as [qo100_v1.1_jlc_pcb.7z](hw-trv/qo100_v1.1_jlc_pcb.7z).
 
 ## Assembly
 

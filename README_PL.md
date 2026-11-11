@@ -64,9 +64,12 @@
 ## Schematy
 
 - [schematy v1.1 (aktualne)](hw-trv/sch_v1.1.pdf) — dodatkowe wejście 25MHz, pomysł Zbiga SP3NYF
-- [pliki produkcyjne PCB v1.1 (JLCPCB)](hw-trv/qo100_v1.1_jlc_pcb.7z) — gotowy zestaw plików do zamówienia płytki w [JLCPCB](https://jlcpcb.com/)
 - [schematy v1.0](hw-trv/sch_v1.0.pdf) — tanie mini filtry SAW + drobne ulepszenia
 - [schematy v0.2](https://github.com/sq5nry/qo-100-transverter/blob/77cc88346982ab3cb6913bec3531f18df363a01a/hw-trv/sch_v0.2.pdf) — wersja przedstawiona na [Ham Radio Friedrichshafen 2026](https://www.hamradio-friedrichshafen.com/trade-show-program/exhibitors/exhibitor?id=107515806) w namiocie [PZK](https://www.pzk.org.pl/)
+
+### Produkcja PCB
+
+Zestaw plików produkcyjnych do zamówienia płytki v1.1 w [JLCPCB](https://jlcpcb.com/) jest dostępny jako [qo100_v1.1_jlc_pcb.7z](hw-trv/qo100_v1.1_jlc_pcb.7z).
 
 ## Montaż
 
