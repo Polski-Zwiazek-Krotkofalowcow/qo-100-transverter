@@ -10512,7 +10512,7 @@
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "IC1"
-				(at 85.09 29.21 0)
+				(at 22.098 6.604 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -10520,14 +10520,14 @@
 				)
 			)
 			(property "Value" "RFFC2071TR13"
-				(at 85.09 26.162 0)
+				(at 22.098 4.064 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
 				)
 			)
-			(property "Footprint" "RFFC2071TR13"
+			(property "Footprint" "rffc:RFFC2071TR13"
 				(at 36.576 -79.68 0)
 				(effects
 					(font
@@ -11316,7 +11316,7 @@
 						)
 					)
 				)
-				(pin input line
+				(pin input clock
 					(at 43.18 -33.02 180)
 					(length 5.08)
 					(name "REF_IN"
@@ -11342,7 +11342,7 @@
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "IC1"
-				(at 85.09 29.21 0)
+				(at 22.098 6.604 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -11350,14 +11350,14 @@
 				)
 			)
 			(property "Value" "RFFC2071TR13"
-				(at 85.09 26.162 0)
+				(at 22.098 4.064 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
 				)
 			)
-			(property "Footprint" "RFFC2071TR13"
+			(property "Footprint" "rffc:RFFC2071TR13"
 				(at 36.576 -79.68 0)
 				(effects
 					(font
@@ -12146,7 +12146,7 @@
 						)
 					)
 				)
-				(pin input line
+				(pin input clock
 					(at 43.18 -33.02 180)
 					(length 5.08)
 					(name "REF_IN"
@@ -12172,7 +12172,7 @@
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "IC1"
-				(at 85.09 29.21 0)
+				(at 22.098 6.604 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -12180,14 +12180,14 @@
 				)
 			)
 			(property "Value" "RFFC2071TR13"
-				(at 85.09 26.162 0)
+				(at 22.098 4.064 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
 				)
 			)
-			(property "Footprint" "RFFC2071TR13"
+			(property "Footprint" "rffc:RFFC2071TR13"
 				(at 36.576 -79.68 0)
 				(effects
 					(font
@@ -12976,7 +12976,7 @@
 						)
 					)
 				)
-				(pin input line
+				(pin input clock
 					(at 43.18 -33.02 180)
 					(length 5.08)
 					(name "REF_IN"
@@ -28780,7 +28780,7 @@
 		(dnp no)
 		(uuid "3433b816-df60-4991-ba19-7e810a0118d8")
 		(property "Reference" "IC1"
-			(at 261.62 106.68 0)
+			(at 250.952 154.178 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -28788,7 +28788,7 @@
 			)
 		)
 		(property "Value" "RFFC2071TR13"
-			(at 261.62 109.728 0)
+			(at 250.698 156.718 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -29013,7 +29013,7 @@
 		(dnp no)
 		(uuid "3433b816-df60-4991-ba19-7e810a0118d9")
 		(property "Reference" "IC1"
-			(at 250.19 153.416 0)
+			(at 263.398 107.696 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -29021,7 +29021,7 @@
 			)
 		)
 		(property "Value" "RFFC2071TR13"
-			(at 250.19 156.464 0)
+			(at 263.398 110.236 0)
 			(effects
 				(font
 					(size 1.27 1.27)

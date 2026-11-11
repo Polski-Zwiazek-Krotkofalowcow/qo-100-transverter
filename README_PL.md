@@ -63,10 +63,13 @@
 
 ## Schematy
 
-- [schematy v1.1 (aktualne)](hw-trv/sch_v1.1.pdf) — dodatkowe wejście 25MHz, pomysł Zbiga SP3NYF
-- [pliki produkcyjne PCB v1.1 (JLCPCB)](hw-trv/qo100_v1.1_jlc_pcb.7z) — gotowy zestaw plików do zamówienia płytki w [JLCPCB](https://jlcpcb.com/)
-- [schematy v1.0](hw-trv/sch_v1.0.pdf) — tanie mini filtry SAW + drobne ulepszenia
-- [schematy v0.2](https://github.com/sq5nry/qo-100-transverter/blob/77cc88346982ab3cb6913bec3531f18df363a01a/hw-trv/sch_v0.2.pdf) — wersja przedstawiona na [Ham Radio Friedrichshafen 2026](https://www.hamradio-friedrichshafen.com/trade-show-program/exhibitors/exhibitor?id=107515806) w namiocie [PZK](https://www.pzk.org.pl/)
+- [schemat v1.1 (aktualny)](hw-trv/sch_v1.1.pdf) — dodatkowe wejście 25MHz, pomysł Zbiga SP3NYF
+- [schemat v1.0](hw-trv/sch_v1.0.pdf) — tanie mini filtry SAW + drobne ulepszenia
+- [schemat v0.2](https://github.com/sq5nry/qo-100-transverter/blob/77cc88346982ab3cb6913bec3531f18df363a01a/hw-trv/sch_v0.2.pdf) — wersja przedstawiona na [Ham Radio Friedrichshafen 2026](https://www.hamradio-friedrichshafen.com/trade-show-program/exhibitors/exhibitor?id=107515806) w namiocie [PZK](https://www.pzk.org.pl/)
+
+### Produkcja PCB
+
+Zestaw plików produkcyjnych do zamówienia płytki v1.1 w [JLCPCB](https://jlcpcb.com/) jest dostępny jako [qo100_v1.1_jlc_pcb.7z](hw-trv/qo100_v1.1_jlc_pcb.7z).
 
 ## Montaż
 
@@ -101,7 +104,7 @@ Umieść zaludnioną płytkę PCB na płycie grzewczej. Zastosuj standardowy **p
 | Chłodzenie | wolne | naturalne |
 
 Użyj gorącego powietrza do wspomagania lutowania wokół obudów QFN i elementów o dużej masie termicznej (PA, przetwornica DC-DC). Obserwuj tworzenie się niepożądanych zworek między wyprowadzeniami układów scalonych.
-Najlepszym rozwiązaniem jest dedykowany piec reflow. W przeciwnym razie dobre efekty daje prowizoryczna „szklarnia” z przezroczystych plastików.
+Najlepszym rozwiązaniem jest dedykowany piec reflow. Jeśli takiego brak, dobre efekty daje prowizoryczna „szklarnia” z przezroczystych plastików ustawiona nad płytą grzewczą (aby ograniczyć straty ciepła i zapewnić bardziej równomierne nagrzewanie).
 
 ### Inspekcja
 
@@ -278,7 +281,7 @@ Użyj, aby wyprowadzić odebrany sygnał do zewnętrznego odbiernika SDR przez g
 </tr>
 </table>
 
-### Goła płytka v1.1
+### goła płytka, wersja v1.0
 
 <table>
 <tr>
@@ -304,7 +307,7 @@ Użyj, aby wyprowadzić odebrany sygnał do zewnętrznego odbiernika SDR przez g
 </tr>
 </table>
 
-### Wnętrze obudów
+### Wnętrza obudów
 
 <table>
 <tr>

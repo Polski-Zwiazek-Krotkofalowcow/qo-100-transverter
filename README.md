@@ -64,9 +64,12 @@
 ## Schematics
 
 - [v1.1 schematics (current)](hw-trv/sch_v1.1.pdf) — extra input for 25MHz, idea from Zbig SP3NYF
-- [v1.1 PCB manufacturing files (JLCPCB)](hw-trv/qo100_v1.1_jlc_pcb.7z) — ready-to-order production file set for [JLCPCB](https://jlcpcb.com/)
 - [v1.0 schematics](hw-trv/sch_v1.0.pdf) — cheap mini SAW filters + minor enhancements
 - [v0.2 schematics](https://github.com/sq5nry/qo-100-transverter/blob/77cc88346982ab3cb6913bec3531f18df363a01a/hw-trv/sch_v0.2.pdf) — release presented at [Ham Radio Friedrichshafen 2026](https://www.hamradio-friedrichshafen.com/trade-show-program/exhibitors/exhibitor?id=107515806) in [PZK](https://www.pzk.org.pl/) (Polish Amateur Radio Union) tent
+
+### PCB manufacturing
+
+The production file set for ordering the v1.1 PCB at [JLCPCB](https://jlcpcb.com/) is available as [qo100_v1.1_jlc_pcb.7z](hw-trv/qo100_v1.1_jlc_pcb.7z).
 
 ## Assembly
 
@@ -251,7 +254,7 @@ The green LED blinks in RX mode and is lit continuously in TX mode. On startup a
 | JP5 | OVEN | disconnected | Reserved for OCXO option; disabled in v0.2 |
 | JP6 | REF ROUTE | AUX path | Routes the 25MHz reference toward the AUX socket (default) or toward the LNB feeder (also check JP7) |
 | JP7 | REF TO LNB | open | Solder to mix the 25MHz reference signal into the LNB feeder coax. This jumper enhances signal integrity when the REF signal isn't routed to the LNB feeder. "Open" when you don't want to mix the REF with the LNB feeder, "Connected" to inject the REF into the LNB feeder. |
-| JP8 | REF SEL | 1-2 bridged (per PCB footprint) | Selects the source of the 25MHz reference signal: the **internal TCXO** or an **external reference** fed to the REF_IN socket. |
+| JP8 | REF SEL | ext ref | Selects the source of the 25MHz reference signal: the **internal TCXO** or an **external reference** fed to the REF_IN socket. |
 | JP9 | REF_IN TERM | open | Connects the internal 50Ω termination to REF_IN. "Open" leaves REF_IN unterminated, "Connected" (solder) terminates it with 50Ω. |
 
 ### Typical usage scenarios
@@ -312,7 +315,7 @@ Combines use cases 2 and 3: LNB gets its reference via coax, AUX socket carries 
 </tr>
 </table>
 
-### v1.1 bare board
+### v1.0 bare board
 
 <table>
 <tr>
