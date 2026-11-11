@@ -9,7 +9,7 @@
 ## What it's about
 - source-available, hardware and software project of a transverter for the [QO-100](https://amsat-uk.org/satellites/geo/eshail-2/) satellite. The outdoor version takes 1.5 days to assemble starting from bare PCB, bag of parts, and patience.
 - complete up and down-converter below 199,99 € : [see the BOM](hw-trv/BOM.md)
-- in-fab assembly automation in progress (*v0.3-snapshot*)
+- in-fab assembly automation in progress
 
 ## Equipment and skills required
 - knack for SMD soldering with stencil and solder paste
@@ -63,10 +63,10 @@
 
 ## Schematics
 
-- [v1.0 schematics (current)](hw-trv/sch_v1.0.pdf)
+- [v1.1 schematics (current)](hw-trv/sch_v1.1.pdf) — extra input for 25MHz, idea from Zbig SP3NYF
+- [v1.1 PCB manufacturing files (JLCPCB)](hw-trv/qo100_v1.1_jlc_pcb.7z) — ready-to-order production file set for [JLCPCB](https://jlcpcb.com/)
+- [v1.0 schematics](hw-trv/sch_v1.0.pdf) — cheap mini SAW filters + minor enhancements
 - [v0.2 schematics](https://github.com/sq5nry/qo-100-transverter/blob/77cc88346982ab3cb6913bec3531f18df363a01a/hw-trv/sch_v0.2.pdf) — release presented at [Ham Radio Friedrichshafen 2026](https://www.hamradio-friedrichshafen.com/trade-show-program/exhibitors/exhibitor?id=107515806) in [PZK](https://www.pzk.org.pl/) (Polish Amateur Radio Union) tent
-
-> **⚠️ Note:** do not mount the OCXO subcircuit (error amplifier and heater components, connected via JP5). This circuitry is non-functional in the current release and will be removed in a future revision. The freed board space can instead be used for additional thermal insulation around the TCXO.
 
 ## Assembly
 
@@ -110,6 +110,7 @@ Place the populated PCB on the heat plate. Follow a standard **SnPb reflow profi
 
 Use hot air to assist reflow around QFN packages and larger thermal-mass parts (PA, DC-DC
 converter). Watch for bridging on fine-pitch ICs.
+Best option is using a dedicated reflow oven. Otherwise you'll obtain good results with a makeshift greenhouse made from transparent plastics.
 
 ### Inspection and rework
 
@@ -129,6 +130,7 @@ tape and foam fitting as described in the enclosure assembly notes.
 ### EMI shields
 
 The PCB has footprints for SMD metal EMI shields over sensitive sections. Mounting the shield over the IF Unit is important for stability. Shielding the switched-mode power supply section and TCXO is recommended but not critical.
+I haven't noticed any adverse effects with no EMI shields at all, especially with metal enclosure and EMI absorber mounted.
 
 ### EMI absorber
 
@@ -178,8 +180,7 @@ Adjust the position of C87 in the PA output circuit for highest stage gain.
 
 ### PA gain and output matching
 
-Measure the PA gain and adjust the position of C88 to obtain **28–30dB** gain — slide C88 along the output line toward the thicker section. If that alone does not maximise gain, add 0.8pF in parallel with C88. Do not mount
-the low-pass filter (LPF) elements yet — bridge the LPF inductor footprint with a strip of
+Measure the PA gain and adjust the position of C88 to obtain **28–30dB** gain — slide C88 along the output line toward the thicker section. If that alone does not maximise gain, add 0.8pF in parallel with C88. Do not mount the low-pass filter (LPF) elements yet — bridge the LPF inductor footprint with a strip of
 copper foil instead, so the PA output can be measured without the potentially mismatched filter.
 
 Once the gain is set, mount the LPF inductor and adjust it for a maximum insertion loss of
@@ -208,15 +209,14 @@ The transceiver signal (up to 5W / +37dBm) passes through a variable 35–42dB a
 reducing it to approximately −8dBm at the mixer input. A diode protection limiter with a
 clipping level starting softly at +4dBm guards the mixer — this is to limit damage in case you connect 100W for a longer time. Note that sustained high-power overshoots may still damage the PA by exceeding its maximum input level even if the mixer itself survives. \
 The signal enters a balanced Gilbert-cell mixer (RFFC2071). The mixer's wideband 4:1 output transformer provides differential symmetry that helps cancel LO leakage, minimising it before the signal
-even reaches the downstream filter. Although slightly more expensive than a narrowband balun
-chip, the wideband transformer's superior symmetry keeps LO leakage below −32dBc relative
-to the upper sideband with only two SAW filters — most critically on the 29MHz band, where
-LO leakage lands closest to occupied spectrum. The TX mixer on 10m is intentionally operated at a reduced bias current, which directly reduces LO leakage at its output. \
-The output is filtered by a 2.4GHz bandpass filter to further suppress any residual LO leakage and the image frequency. The two TX bandpass filters are inter-stage matched using a parallel 0.8pF capacitor; this matching network optimises power transfer between the filter sections. A driver stage amplifies the signal to +12dBm, followed by a 29dB LDMOS power amplifier — whose input is matched to 50Ω using a short high-impedance transmission line — and a low-pass filter, delivering +38dBm (6W) to
+ reaches the downstream filter. Although slightly more expensive than a narrowband balun
+chip, the wideband transformer's superior symmetry keeps LO leakage below −50dBc relative
+to the upper sideband with only two mini SAW filters — most critically on the 29MHz band, where
+LO leakage lands closest to occupied spectrum. The TX mixer on 10m is intentionally operated at a reduced  current, which directly decreases LO leakage at its output. \
+The output is filtered by two 2.4GHz bandpass filters to further suppress residual LO leakage as well as the image. The driver stage amplifies the signal to +12dBm, followed by a 29dB LDMOS power amplifier — whose input is matched to 50Ω using a short high-impedance transmission line — and a low-pass filter, delivering +38dBm (6W) to
 the TX output socket. \
-1dB and 3dB fixed attenuation pads improve impedance matching, distribute gain, and improve amplifier stability. Their 50Ω terminations also
-provide convenient probe attachment points when measuring gain between individual stages. \
-Image attenuation is 40dB on 10m.
+1dB and 3dB fixed attenuation pads improve impedance matching, distribute gain, and improve amplifier stability.\
+Image attenuation is better than 60dB on 10m.
 Total conversion gain is 2–9dB; about 0.8–4W from the transceiver will produce 6W output.
 
 ### Receive path
@@ -251,6 +251,8 @@ The green LED blinks in RX mode and is lit continuously in TX mode. On startup a
 | JP5 | OVEN | disconnected | Reserved for OCXO option; disabled in v0.2 |
 | JP6 | REF ROUTE | AUX path | Routes the 25MHz reference toward the AUX socket (default) or toward the LNB feeder (also check JP7) |
 | JP7 | REF TO LNB | open | Solder to mix the 25MHz reference signal into the LNB feeder coax. This jumper enhances signal integrity when the REF signal isn't routed to the LNB feeder. "Open" when you don't want to mix the REF with the LNB feeder, "Connected" to inject the REF into the LNB feeder. |
+| JP8 | REF SEL | 1-2 bridged (per PCB footprint) | Selects the source of the 25MHz reference signal: the **internal TCXO** or an **external reference** fed to the REF_IN socket. |
+| JP9 | REF_IN TERM | open | Connects the internal 50Ω termination to REF_IN. "Open" leaves REF_IN unterminated, "Connected" (solder) terminates it with 50Ω. |
 
 ### Typical usage scenarios
 
@@ -296,21 +298,28 @@ Combines use cases 2 and 3: LNB gets its reference via coax, AUX socket carries 
 
 ## Gallery
 
-[![Video thumbnail](https://drive.google.com/thumbnail?id=1cbVlMBV8zS9o48hG52KBiPKmD1HPmWjP&sz=w640)](https://drive.google.com/file/d/1cbVlMBV8zS9o48hG52KBiPKmD1HPmWjP/view?usp=drive_link)
+<table>
+<tr>
+<td align="center"><a href="https://drive.google.com/file/d/1cbVlMBV8zS9o48hG52KBiPKmD1HPmWjP/view?usp=drive_link"><img src="https://drive.google.com/thumbnail?id=1cbVlMBV8zS9o48hG52KBiPKmD1HPmWjP&sz=w640" alt="Video thumbnail"></a><br><em>Click the image to watch the video.</em></td>
+<td align="center"><a href="https://drive.google.com/file/d/16R6eq9bAkn6X3CiZJTOIlDRJh-qXqAGV/view?usp=drive_link"><img src="https://drive.google.com/thumbnail?id=16R6eq9bAkn6X3CiZJTOIlDRJh-qXqAGV&sz=w640" alt="Infrared video thumbnail"></a><br><em>Infrared video of the PCB during PA test — passive cooling via aluminum enclosure. Click to watch.</em></td>
+</tr>
+</table>
 
-*Click the image to watch the video.*
+<table>
+<tr>
+<td align="center"><a href="https://drive.google.com/file/d/1jGGn86MhkM-9hL6HgY638JuyBKbzmVd1/view?usp=drive_link"><img src="https://drive.google.com/thumbnail?id=1jGGn86MhkM-9hL6HgY638JuyBKbzmVd1&sz=w640" alt="Output power video thumbnail"></a><br><em>Output power — click to watch. 40dB/50W att. + 20dB SMA att (39.5+19,5=59dB at 2.4GHz)</em></td>
+<td align="center"><a href="https://drive.google.com/file/d/1BobpsWnM3RhQmgtJEgMQ4XA69L-facsb/view?usp=drive_link"><img src="https://drive.google.com/thumbnail?id=1BobpsWnM3RhQmgtJEgMQ4XA69L-facsb&sz=w640" alt="Power measurements video thumbnail"></a><br><em>Power measurements — click to watch. Heat-pipe directly at PA.</em></td>
+</tr>
+</table>
 
-[![Output power video thumbnail](https://drive.google.com/thumbnail?id=1jGGn86MhkM-9hL6HgY638JuyBKbzmVd1&sz=w640)](https://drive.google.com/file/d/1jGGn86MhkM-9hL6HgY638JuyBKbzmVd1/view?usp=drive_link)
+### v1.1 bare board
 
-*Output power — click to watch. 40dB/50W att. + 20dB SMA att (39.5+19,5=59dB at 2.4GHz)*
-
-[![Infrared video thumbnail](https://drive.google.com/thumbnail?id=16R6eq9bAkn6X3CiZJTOIlDRJh-qXqAGV&sz=w640)](https://drive.google.com/file/d/16R6eq9bAkn6X3CiZJTOIlDRJh-qXqAGV/view?usp=drive_link)
-
-*Infrared video of the PCB during PA test — passive cooling via aluminum enclosure. Click to watch.*
-
-[![Power measurements video thumbnail](https://drive.google.com/thumbnail?id=1BobpsWnM3RhQmgtJEgMQ4XA69L-facsb&sz=w640)](https://drive.google.com/file/d/1BobpsWnM3RhQmgtJEgMQ4XA69L-facsb/view?usp=drive_link)
-
-*Power measurements — click to watch. Heat-pipe directly at PA.*
+<table>
+<tr>
+<td><img src="media/P_20260930_115722.jpg" alt="recent photo, 2026-09-30"></td>
+<td><img src="media/P_20261111_182953.jpg" alt="recent photo, 2026-11-11"></td>
+</tr>
+</table>
 
 ### Finished units
 
@@ -350,32 +359,29 @@ Combines use cases 2 and 3: LNB gets its reference via coax, AUX socket carries 
 
 <table>
 <tr>
-<td><img src="media/P_20260518_201419.jpg" alt="component delivery"></td>
-<td><img src="media/P_20260518_201309.jpg" alt="component kits unpacked"></td>
-</tr>
-<tr>
-<td><img src="media/P_20260519_123407.jpg" alt="SMD component reels and bags"></td>
-<td><img src="media/P_20260519_134542.jpg" alt="MAX20457 ICs in ESD packaging"></td>
-</tr>
-<tr>
 <td><img src="media/P_20260519_010348.jpg" alt="solder stencil"></td>
-<td><img src="media/P_20260601_175435.jpg" alt="stencil clamped over PCB"></td>
-</tr>
-<tr>
-<td><img src="media/P_20260520_113411.jpg" alt="solder paste preparation"></td>
-<td><img src="media/P_20260520_114559.jpg" alt="solder paste applied"></td>
-</tr>
-<tr>
 <td><img src="media/P_20260518_185056.jpg" alt="reflow on heating platform"></td>
+<td><img src="media/P_20260609_193324.jpg" alt="hot plate component rework"></td>
+</tr>
+<tr>
+<td><img src="media/P_20260518_201309.jpg" alt="component kits unpacked"></td>
+<td><img src="media/P_20260520_114559.jpg" alt="solder paste applied"></td>
 <td><img src="media/P_20260601_181620.jpg" alt="reflow in progress"></td>
 </tr>
 <tr>
-<td><img src="media/P_20260609_193324.jpg" alt="hot plate component rework"></td>
+<td><img src="media/P_20260520_113411.jpg" alt="solder paste preparation"></td>
+<td><img src="media/P_20260518_201419.jpg" alt="component delivery"></td>
+<td><img src="media/P_20260519_134542.jpg" alt="MAX20457 ICs in ESD packaging"></td>
+</tr>
+<tr>
+<td><img src="media/P_20260519_123407.jpg" alt="SMD component reels and bags"></td>
+<td><img src="media/P_20260601_175435.jpg" alt="stencil clamped over PCB"></td>
 <td><img src="media/P_20260519_185443.jpg" alt="first assembled v0.2 board in frame"></td>
 </tr>
 <tr>
 <td><img src="media/P_20260520_123340.jpg" alt="populated PCB panel"></td>
 <td><img src="media/P_20260601_181708.jpg" alt="assembled batch"></td>
+<td></td>
 </tr>
 </table>
 
@@ -392,7 +398,7 @@ Combines use cases 2 and 3: LNB gets its reference via coax, AUX socket carries 
 </tr>
 <tr>
 <td><img src="media/P_20260522_161048.jpg" alt="replacing IF chip"><br><em>replacing IF chip</em></td>
-<td><img src="hw-trv/pcb_all_layers.png" alt="PCB all layers"></td>
+<td><img src="media/pcb_all_layers.png" alt="PCB all layers"></td>
 </tr>
 </table>
 

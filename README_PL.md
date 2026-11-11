@@ -7,8 +7,9 @@
 *[English version / Wersja angielska](README.md)*
 
 ## O projekcie
-- sprzętowo-programowy projekt transvertera do pracy przez satelitę [QO-100](https://amsat-uk.org/satellites/geo/eshail-2/). Czas montażu to ok. 1,5 dnia zaczynając od lutowania elementów aż do strojenia i regulacji
+- projekt sprzętowo-programowy typu source-available: transverter do pracy przez satelitę [QO-100](https://amsat-uk.org/satellites/geo/eshail-2/). Czas montażu to ok. 1,5 dnia zaczynając od lutowania elementów aż do strojenia i regulacji
 - kompletny up i downconverter w jednym poniżej 199,99€ — [patrz BOM](hw-trv/BOM.md)
+- w toku: automatyzacja montażu w fabryce (in-fab)
 
 ## Potrzebne wyposażenie i umiejętności
 - umiejętność lutowania SMD z szablonem i pastą lutowniczą
@@ -58,14 +59,14 @@
 3. Podłącz zasilanie DC i sygnał PTT.
 4. Włącz przedwzmacniacz RX w transceiverze dla pasm 29-70MHz. Tor odbiorczy transwertera nie ma wzmocnienia przemiany i sygnały odbierane muszą być dodatkowo wzmocnione.
 5. Sprawdź pozycję środkowego beaconu QO-100; wyreguluj go na środek pasma za pomocą pokrętła REF ADJ małym wkrętakiem płaskim.
-6. Ustaw moc wyjściową transceivera na 1–5W i tłumik TX ATT tak, aby sygnał był na poziomie środkowego beaconu. Zalecane jest używanie mniejszej mocy z wyższym ustawieniem TX ATT w celu minimalizacji wydzielania ciepła wewnątrz transvertera.
+6. Ustaw moc wyjściową transceivera na 3–5W i tłumik TX ATT tak, aby sygnał był na poziomie środkowego beaconu. Zalecane jest używanie mniejszej mocy z wyższym ustawieniem TX ATT w celu minimalizacji wydzielania ciepła wewnątrz transvertera.
 
 ## Schematy
 
-- [schematy v0.3 (aktualne)](hw-trv/sch_v0.3-sh.pdf)
+- [schematy v1.1 (aktualne)](hw-trv/sch_v1.1.pdf) — dodatkowe wejście 25MHz, pomysł Zbiga SP3NYF
+- [pliki produkcyjne PCB v1.1 (JLCPCB)](hw-trv/qo100_v1.1_jlc_pcb.7z) — gotowy zestaw plików do zamówienia płytki w [JLCPCB](https://jlcpcb.com/)
+- [schematy v1.0](hw-trv/sch_v1.0.pdf) — tanie mini filtry SAW + drobne ulepszenia
 - [schematy v0.2](https://github.com/sq5nry/qo-100-transverter/blob/77cc88346982ab3cb6913bec3531f18df363a01a/hw-trv/sch_v0.2.pdf) — wersja przedstawiona na [Ham Radio Friedrichshafen 2026](https://www.hamradio-friedrichshafen.com/trade-show-program/exhibitors/exhibitor?id=107515806) w namiocie [PZK](https://www.pzk.org.pl/)
-
-> **⚠️ Uwaga:** nie montuj podzespołów obwodu OCXO (wzmacniacz błędu i elementy grzejnika, podłączone przez zworę JP5). Ten obwód jest niefunkcjonalny w bieżącej wersji i zostanie usunięty w następnej. Zwolnione miejsce na płytce można wykorzystać do dodatkowej izolacji termicznej wokół TCXO.
 
 ## Montaż
 
@@ -100,6 +101,7 @@ Umieść zaludnioną płytkę PCB na płycie grzewczej. Zastosuj standardowy **p
 | Chłodzenie | wolne | naturalne |
 
 Użyj gorącego powietrza do wspomagania lutowania wokół obudów QFN i elementów o dużej masie termicznej (PA, przetwornica DC-DC). Obserwuj tworzenie się niepożądanych zworek między wyprowadzeniami układów scalonych.
+Najlepszym rozwiązaniem jest dedykowany piec reflow. W przeciwnym razie dobre efekty daje prowizoryczna „szklarnia” z przezroczystych plastików.
 
 ### Inspekcja
 
@@ -117,6 +119,7 @@ Przygotuj TCVCXO zawijając go w piankę termoizolacyjną za pomocą taśmy poli
 ### Ekrany EMI
 
 Płytka posiada niepokryte maską pola do montażu metalowych ekranów SMD nad bardziej wrażliwymi sekcjami. Montaż ekranu nad modułem IF jest zalecany dla stabilności i ochrony przed urazami mechanicznymi np. przy regulacji. Ekranowanie sekcji zasilacza impulsowego i TCXO jest zalecane, lecz nie krytyczne.
+Nie zauważyłem negatywnych skutków przy braku jakichkolwiek ekranów EMI, zwłaszcza z metalową obudową i zamontowanym pochłaniaczem EMC.
 
 ### Pochłaniacze EMC
 
@@ -167,33 +170,34 @@ Ustaw próg zabezpieczenia nadprądowego na **1,1A**.
 
 Podłącz miernik mocy RF do gniazda TX 2,4GHz i wyreguluj tor TX dla uzyskania **6W** wyjścia w oczekiwanym zakresie mocy wejściowej (1–5W).
 
-> **⚠️ Ostrzeżenie:** nie zwiększaj mocy wejściowej w celu osiągnięcia 6W, dopóki wzmocnienie PA nie wynosi co najmniej 28dB. PA przegrzeje się i będzie pracował nieliniowo.
+> **⚠️ Ostrzeżenie:** nie zwiększaj mocy wejściowej w celu osiągnięcia 6W, dopóki wzmocnienie PA nie wynosi co najmniej 28dB. PA przegrzeje się i będzie pracował nieliniowo. Zdarzyło mi się uszkodzić wzmacniacz przeciążając sygnałem już 17dBm.
 
 > **⚠️ Ostrzeżenie:** nie steruj PA powyżej **9..12W** mocy wejściowej — przekroczenie tej granicy powoduje nieliniową pracę stopnia i zakłócenia dla innych użytkowników.
 
-> **⚠️ Uwaga:** układ PA dobrze toleruje niedopasowanie anteny — WFS do 10:1 na porcie TX 2,4GHz nie uszkodzi go. Jednak praca bez podłączonego obciążenia może powodować samowzbudzenia w zakresie 2,2–2,5GHz; montowany na płytce bezpiecznik 1,5A ograniczy wynikający z tego prąd.
+> **⚠️ Uwaga:** układ PA dobrze toleruje niedopasowanie anteny — WFS do 10:1 nie uszkodzi go. Jednak praca bez podłączonego obciążenia może powodować samowzbudzenia w zakresie 2,2–2,5GHz; bezpiecznik 1,5A ograniczy wynikający z tego prąd.
 
 ## Opis układu
 
 ### Tor nadawczy
 
 Sygnał z transceivera (max 5W / +37dBm) tłumiony jest w zakresie 35–42dB, redukując się do około −8dBm na wejściu mieszacza. Ogranicznik diodowy z poziomem obcinania od +4dBm chroni mieszacz — ma za zadanie ograniczyć uszkodzenia w przypadku podłączenia 100W na dłuższy czas. Należy pamiętać, że długotrwałe przeciążenia mogą mimo to uszkodzić PA przez przekroczenie jego maksymalnego poziomu wejściowego, nawet jeśli sam mieszacz to przeżyje.
-Sygnał wchodzi do zrównoważonego mieszacza na bazie komórki Gilberta (RFFC2071). Szerokopasmowy transformator wyjściowy 4:1 pomaga minimalizować wyciek LO; jest on poniżej −32dBc co jest szczególnie krytycznie na paśmie 10m. Mieszacz TX na tym paśmie ma ustawiony mniejszy prąd polaryzacji, co bezpośrednio zmniejsza poziom LO na jego wyjściu.
-Sygnał jest dalej filtrowany przez filtr pasmowy 2,4GHz, odfiltrowywana jest heterodyna oraz jeszcze bardziej, sygnał lustrzany. Dwa filtry SAW 2441.8MHz dopasowane między sobą zapewniają małe tłumienie pasmowe i zadawalającą stromość zbocza dla tłumienia sygnałów niepożądanych. Driver mocy wzmacnia sygnał do +12dBm i przez tłumik podaje do wzmacniacza mocy LDMOS. Po filtrze dolnoprzepustowym 2.6GHz otrzymujemy +38dBm (6W) na gnieździe wyjściowym N.
-Tłumiki międzystopniowe poprawiają dopasowanie impedancji, rozkładają wzmocnienie i zwiększają stabilność całego toru. Tłumienie sygnału lustrzanego wynosi 40dB na paśmie 10m.
+Sygnał wchodzi do zrównoważonego mieszacza na bazie komórki Gilberta (RFFC2071). Szerokopasmowy transformator wyjściowy 4:1 zapewnia symetrię, która pomaga skasować wyciek LO. Choć jest nieco droższy od wąskopasmowego baluna dyskretnego, to dzięki lepszej symetrii wyciek LO jest poniżej −50dBc (razem z dwoma filtrami — co jest najbardziej krytyczne na paśmie 29MHz, gdzie LO wypada najbliżej zajętego widma). Mieszacz TX na paśmie 10m pracuje celowo ze zmniejszonym prądem, co bezpośrednio zmniejsza poziom LO na jego wyjściu.
+Sygnał jest filtrowany przez dwa filtry pasmowe 2,4GHz, aby jeszcze bardziej stłumić resztkowy wyciek LO oraz sygnał lustrzany. Driver wzmacnia sygnał do +12dBm, a następnie trafia on do dwustopniowego zintegrowanego wzmacniacza mocy LDMOS 29dB a potem do filtra dolnoprzepustowego, dając +38dBm (6W) na gnieździe wyjściowym TX.
+Tłumiki międzystopniowe 1dB i 3dB poprawiają dopasowanie impedancji, rozkładają wzmocnienie i zwiększają stabilność wzmacniacza. Tłumienie sygnału lustrzanego jest lepsze niż 60dB na paśmie 10m.
 Wzmocnienie przemiany to 2–9dB; około 0,8–4W z transceivera da 6W mocy na wyjściu.
 
 ### Tor odbiorczy
 
-Sygnał p.cz. 738MHz z LNB przechodzi wpierw przez filtr górnoprzepustowy (aby nie przeciążać filtrów SAW sygnałem oscylatora odniesienia) i dwa kaskadowo połączone filtry SAW 738MHz. Następnie opcjonalny rozdzielacz umożliwia wyprowadzenie sygnału odbieranego do zewnętrznego gniazda RX AUX. Wersja v0.2 używa rozdzielacza rezystancyjnego, w następnej będzie już użyty dzielnik Wilkinsona. Jeśli wyjście RX AUX nie jest potrzebne, nie montuje się elementów rozdzielacza. \
+Sygnał p.cz. 738MHz z LNB przechodzi wpierw przez filtr górnoprzepustowy (aby nie przeciążać filtrów SAW sygnałem oscylatora odniesienia) i dwa kaskadowo połączone filtry SAW 738MHz. Za pierwszym filtrem można skonfigutować zworką rozdzielacz, wyprowadzający sygnał p.cz. do zewnętrznego gniazda RX AUX. Drugi filtr SAW zastępuje balun i wnosząc podobne tłumienie, zapewnia dodatkowe filtrowanie. Jeśli wyjście RX AUX nie jest potrzebne, nie montuje się elementów rozdzielacza. \
 Napięcie zasilania LNB i sygnał odniesienia 25MHz są wstrzykiwane przez bias-T, który zapewnia wystarczającą izolację RF w zakresie 25-125MHz oraz 738MHz, gdzie sygnały te dzielą to samo złącze. Harmoniczne sygnału odniesienia filtrowane są do ok. 125MHz. \
-Od wyjścia mieszacza sygnał przechodzi przez przełącznik na diodzie PIN do wspólnego gniazda TRX. Bias-T przełącznika jest zbudowany z trzech indukcyjności tak, aby każda z nich przedstawiała co najmniej 1kΩ reaktancji w każdym obsługiwanym paśmie IF.
-Projekt zakłada że tłumik wejściowy zawsze jest obecny na ścieżce RX — należy włączyć przedwzmacniacz RX w transceiverze, aby skompensować straty. Dla obniżenia kosztu, tor odbiorczy nie dodaje wzmocnienia i opiera się na typowych poziomach sygnału LNB.
-Na IF 432MHz najsilniejsze sygnały są odbierane na poziomie S9 przy włączonym przedwzmacniaczy RX, środkowy beacon jest na S7.
+Od wyjścia mieszacza sygnał przechodzi przez przełącznik na diodzie PIN do wspólnego gniazda TRX. Bias-T przełącznika jest zbudowany z trzech indukcyjności tak, aby każda z nich przedstawiała co najmniej 1kΩ reaktancji w każdym obsługiwanym paśmie.
+Tłumik wejściowy zawsze jest obecny na ścieżce RX — należy włączyć przedwzmacniacz RX w transceiverze, aby skompensować straty. Dla obniżenia kosztu, tor odbiorczy nie dodaje wzmocnienia i opiera się na typowych poziomach sygnału LNB.
+Na p.cz. 432MHz najsilniejsze sygnały są odbierane na poziomie S9+10, środkowy beacon jest na S7..8 — oba przy wyłączonym przedwzmacniaczu RX (LNB Bullseye).
 
 ### Sterowanie
 
-Mikrokontroler STM32L0 konfiguruje rejestry PLL RFFC2071 pod kątem częstotliwości RX i TX odpowiadających wybranemu pasmu. Także konfigurowane są prądy mieszczacza (pasmo 10m). Przy zmianach PTT kontroler przełącza tylko banki rejestrów syntezy.
+Mikrokontroler STM32L0 konfiguruje rejestry PLL RFFC2071 pod kątem częstotliwości RX i TX odpowiadających wybranemu pasmu. Także konfigurowane są prądy mieszczacza (pasmo 10m). Przy zmianach PTT kontroler przełącza tylko banki rejestrów syntezy. Sygnał PTT jest sumą logiczną linii PTT oraz sterowania z przewodu koncentrycznego.
+Monitorowana jest także utrata synchronizacji PLL (sprawdzanie co kilka sekund); wówczas układ jest rekalibrowany. Procedura jest praktycznie niezauważalna (~100µs). Taka sytuacja może wystąpić przy zmianie temperatury o >30°C, co może przesunąć wewnętrzne VCO poza zakres stabilnej pracy.
 
 ### Wskaźniki
 
@@ -213,6 +217,8 @@ Zielona dioda LED (INFO) miga w trybie RX i świeci ciągłym światłem w trybi
 | JP5 | OVEN | rozłączone | Zarezerwowane dla opcji OCXO; wyłączone w v0.2 |
 | JP6 | REF ROUTE | AUX path | Kieruje odniesienie 25MHz do gniazda AUX (domyślnie) lub do kabla LNB (sprawdź też JP7) |
 | JP7 | REF TO LNB | open | Przylutuj, aby wmieszać sygnał odniesienia 25MHz do kabla LNB. Otwarte = nie wstrzykuj REF do LNB; Przylutowane = wstrzykuj REF do LNB. |
+| JP8 | REF SEL | ext ref | Wybiera źródło sygnału odniesienia 25MHz: **wewnętrzny TCXO** lub **zewnętrzne odniesienie** podane na gniazdo REF_IN. |
+| JP9 | REF_IN TERM | rozłączone | Dołącza wewnętrzny rezystor terminujący 50Ω do REF_IN. Otwarte = REF_IN bez terminacji (kilka kΩ); Przylutowane = REF_IN zakończone 50Ω. |
 
 ### Typowe scenariusze
 
@@ -258,21 +264,28 @@ Użyj, aby wyprowadzić odebrany sygnał do zewnętrznego odbiernika SDR przez g
 
 ## Galeria
 
-[![Miniatura wideo](https://drive.google.com/thumbnail?id=1cbVlMBV8zS9o48hG52KBiPKmD1HPmWjP&sz=w640)](https://drive.google.com/file/d/1cbVlMBV8zS9o48hG52KBiPKmD1HPmWjP/view?usp=drive_link)
+<table>
+<tr>
+<td align="center"><a href="https://drive.google.com/file/d/1cbVlMBV8zS9o48hG52KBiPKmD1HPmWjP/view?usp=drive_link"><img src="https://drive.google.com/thumbnail?id=1cbVlMBV8zS9o48hG52KBiPKmD1HPmWjP&sz=w640" alt="Miniatura wideo"></a><br><em>Kliknij obraz, aby obejrzeć wideo.</em></td>
+<td align="center"><a href="https://drive.google.com/file/d/16R6eq9bAkn6X3CiZJTOIlDRJh-qXqAGV/view?usp=drive_link"><img src="https://drive.google.com/thumbnail?id=16R6eq9bAkn6X3CiZJTOIlDRJh-qXqAGV&sz=w640" alt="Miniatura wideo — podczerwień"></a><br><em>Wideo w podczerwieni PCB podczas testu PA — chłodzenie pasywne przez obudowę aluminiową. Kliknij, aby obejrzeć.</em></td>
+</tr>
+</table>
 
-*Kliknij obraz, aby obejrzeć wideo.*
+<table>
+<tr>
+<td align="center"><a href="https://drive.google.com/file/d/1jGGn86MhkM-9hL6HgY638JuyBKbzmVd1/view?usp=drive_link"><img src="https://drive.google.com/thumbnail?id=1jGGn86MhkM-9hL6HgY638JuyBKbzmVd1&sz=w640" alt="Miniatura wideo — moc wyjściowa"></a><br><em>Moc wyjściowa — kliknij, aby obejrzeć. Att. 40dB/50W + att. SMA 20dB (39,5+19,5=59dB przy 2,4GHz)</em></td>
+<td align="center"><a href="https://drive.google.com/file/d/1BobpsWnM3RhQmgtJEgMQ4XA69L-facsb/view?usp=drive_link"><img src="https://drive.google.com/thumbnail?id=1BobpsWnM3RhQmgtJEgMQ4XA69L-facsb&sz=w640" alt="Miniatura wideo — pomiary mocy"></a><br><em>Pomiary mocy — kliknij, aby obejrzeć. Heat-pipe bezpośrednio przy PA.</em></td>
+</tr>
+</table>
 
-[![Miniatura wideo — moc wyjściowa](https://drive.google.com/thumbnail?id=1jGGn86MhkM-9hL6HgY638JuyBKbzmVd1&sz=w640)](https://drive.google.com/file/d/1jGGn86MhkM-9hL6HgY638JuyBKbzmVd1/view?usp=drive_link)
+### Goła płytka v1.1
 
-*Moc wyjściowa — kliknij, aby obejrzeć. Att. 40dB/50W + att. SMA 20dB (39,5+19,5=59dB przy 2,4GHz)*
-
-[![Miniatura wideo — podczerwień](https://drive.google.com/thumbnail?id=16R6eq9bAkn6X3CiZJTOIlDRJh-qXqAGV&sz=w640)](https://drive.google.com/file/d/16R6eq9bAkn6X3CiZJTOIlDRJh-qXqAGV/view?usp=drive_link)
-
-*Wideo w podczerwieni PCB podczas testu PA — chłodzenie pasywne przez obudowę aluminiową. Kliknij, aby obejrzeć.*
-
-[![Miniatura wideo — pomiary mocy](https://drive.google.com/thumbnail?id=1BobpsWnM3RhQmgtJEgMQ4XA69L-facsb&sz=w640)](https://drive.google.com/file/d/1BobpsWnM3RhQmgtJEgMQ4XA69L-facsb/view?usp=drive_link)
-
-*Pomiary mocy — kliknij, aby obejrzeć. Heat-pipe bezpośrednio przy PA.*
+<table>
+<tr>
+<td><img src="media/P_20260930_115722.jpg" alt="zdjęcie z 2026-09-30"></td>
+<td><img src="media/P_20261111_182953.jpg" alt="zdjęcie z 2026-11-11"></td>
+</tr>
+</table>
 
 ### Gotowe urządzenia
 
@@ -312,32 +325,29 @@ Użyj, aby wyprowadzić odebrany sygnał do zewnętrznego odbiernika SDR przez g
 
 <table>
 <tr>
-<td><img src="media/P_20260518_201419.jpg" alt="elementy"></td>
-<td><img src="media/P_20260518_201309.jpg" alt="zestawy elementów rozpakowane"></td>
-</tr>
-<tr>
-<td><img src="media/P_20260519_123407.jpg" alt="szpule i torebki SMD"></td>
-<td><img src="media/P_20260519_134542.jpg" alt="układy MAX20457 w opakowaniach ESD"></td>
-</tr>
-<tr>
 <td><img src="media/P_20260519_010348.jpg" alt="szablon lutowniczy"></td>
-<td><img src="media/P_20260601_175435.jpg" alt="szablon zaciśnięty na PCB"></td>
-</tr>
-<tr>
-<td><img src="media/P_20260520_113411.jpg" alt="przygotowanie pasty lutowniczej"></td>
-<td><img src="media/P_20260520_114559.jpg" alt="nałożona pasta lutownicza"></td>
-</tr>
-<tr>
 <td><img src="media/P_20260518_185056.jpg" alt="reflow na płycie grzewczej"></td>
+<td><img src="media/P_20260609_193324.jpg" alt="lutowanie elementów na płycie grzewczej"></td>
+</tr>
+<tr>
+<td><img src="media/P_20260518_201309.jpg" alt="zestawy elementów rozpakowane"></td>
+<td><img src="media/P_20260520_114559.jpg" alt="nałożona pasta lutownicza"></td>
 <td><img src="media/P_20260601_181620.jpg" alt="reflow w toku"></td>
 </tr>
 <tr>
-<td><img src="media/P_20260609_193324.jpg" alt="lutowanie elementów na płycie grzewczej"></td>
+<td><img src="media/P_20260520_113411.jpg" alt="przygotowanie pasty lutowniczej"></td>
+<td><img src="media/P_20260518_201419.jpg" alt="elementy"></td>
+<td><img src="media/P_20260519_134542.jpg" alt="układy MAX20457 w opakowaniach ESD"></td>
+</tr>
+<tr>
+<td><img src="media/P_20260519_123407.jpg" alt="szpule i torebki SMD"></td>
+<td><img src="media/P_20260601_175435.jpg" alt="szablon zaciśnięty na PCB"></td>
 <td><img src="media/P_20260519_185443.jpg" alt="pierwsza złożona płyta v0.2 w ramce"></td>
 </tr>
 <tr>
 <td><img src="media/P_20260520_123340.jpg" alt="spopulowana PCB"></td>
 <td><img src="media/P_20260601_181708.jpg" alt="zmontowana partia"></td>
+<td></td>
 </tr>
 </table>
 

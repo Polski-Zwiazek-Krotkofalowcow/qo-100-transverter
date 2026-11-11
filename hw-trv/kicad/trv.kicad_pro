@@ -38,8 +38,8 @@
         "other_text_upright": false,
         "pads": {
           "drill": 0.0,
-          "height": 0.95,
-          "width": 0.975
+          "height": 1.2,
+          "width": 0.875
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -60,15 +60,7 @@
       ],
       "drc_exclusions": [
         [
-          "clearance|220220670|152880087|71214188-6f32-4e26-b8fb-a48fd70694bf|d0a8a96a-bca5-4199-a5b0-3b1d2a75dd11",
-          ""
-        ],
-        [
           "clearance|232276170|133861598|2ae1adfc-b13e-47bc-a8a7-467d224e7b5c|d4f70be9-822c-4026-acad-db4dacdb39f3",
-          ""
-        ],
-        [
-          "hole_clearance|220220670|152880087|71214188-6f32-4e26-b8fb-a48fd70694bf|d0a8a96a-bca5-4199-a5b0-3b1d2a75dd11",
           ""
         ],
         [
@@ -77,10 +69,6 @@
         ],
         [
           "shorting_items|215476170|141847587|8ba19495-c478-405b-8390-7e21cd826a7c|a610f3c7-962e-4c76-9c8c-55040f75158b",
-          ""
-        ],
-        [
-          "shorting_items|229946000|119563993|a05c7650-3b3c-4c60-ac38-83123cea475d|ae6a56c6-944c-47f8-80c0-c28f45ef0c44",
           ""
         ],
         [
@@ -593,7 +581,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "qo-100_v1.0",
+      "plot": "qo-100_v1.1",
       "pos_files": "",
       "specctra_dsn": "",
       "step": "",
